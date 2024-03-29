@@ -1,5 +1,8 @@
 package org.tbeerbower;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -24,8 +27,9 @@ public class Terdle {
     public static final String YELLOW_BACKGROUND = "\u001B[43m";
     public static final String GRAY_BACKGROUND = "\u001B[47m";
 
-    // Member variables
+    // Instance variables
     private String word;
+    private List<String> guesses = new ArrayList<>();
 
     public static void main(String[] args) {
         Terdle terdleGame = new Terdle();
@@ -51,8 +55,9 @@ public class Terdle {
             String guess = scanner.nextLine();
             guess = guess.toLowerCase();
 
-            int[] results = checkGuess(guess);
-            printGuessResults(guess, results);
+            guesses.add(guess);
+
+            printGuesses();
 
             ++guessCount;
             win = guess.equals( word );
@@ -64,14 +69,21 @@ public class Terdle {
         }
     }
 
+    private void printGuesses() {
+        for (String guessToDisplay : guesses) {
+            int[] results = checkGuess(guessToDisplay);
+            printGuessResults(guessToDisplay, results);
+        }
+    }
+
     private int[] checkGuess( String guess ) {
 
-        String missedWordChars = "";
+        List<Character> missedWordChars = new LinkedList<>();
         for ( int i = 0; i < WORD_LENGTH; ++i) {
             char wordChar = word.charAt(i);
             char guessChar = guess.charAt(i);
             if (wordChar != guessChar) {
-                missedWordChars += wordChar;
+                missedWordChars.add(wordChar);
             }
         }
 
@@ -83,9 +95,10 @@ public class Terdle {
             if (wordChar == guessChar) {
                 resultCodes[i] = EXACT_MATCH;
             } else {
-                if (missedWordChars.contains(Character.toString(guessChar))){
+                int index = missedWordChars.indexOf(guessChar);
+                if (index > -1){
                     resultCodes[i] = WRONG_LOCATION;
-                    missedWordChars = missedWordChars.replace(Character.toString(guessChar), "");
+                    missedWordChars.remove(index);
                 } else {
                     resultCodes[i] = NO_MATCH;
                 }
