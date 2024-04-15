@@ -11,8 +11,6 @@ import java.util.Scanner;
 public class Terdle {
 
     // Constants
-    private static final int WORD_LENGTH = 5;
-    private static final int MAX_GUESSES = 6;
 
     private static final String keyboard =
                     "QWERTYUIOP\n" +
@@ -26,20 +24,12 @@ public class Terdle {
     public static final String YELLOW_BACKGROUND = "\u001B[43m";
     public static final String GRAY_BACKGROUND = "\u001B[47m";
 
-    // Result Codes
-    private static final int NO_MATCH = 0;
-    private static final int WRONG_LOCATION = 1;
-    private static final int EXACT_MATCH = 2;
 
     // backgrounds
     String[] backgrounds = {GRAY_BACKGROUND, YELLOW_BACKGROUND, GREEN_BACKGROUND};
 
-    // Game words
-    private static final String[] words = {"chair", "crate", "train", "allow", "about", "study"};
-
     // Instance variables
-    private String word;
-    private List<String> guesses = new ArrayList<>();
+    private final Map<String, Player> players = new HashMap<>();
 
     public static void main(String[] args) {
         Terdle terdleGame = new Terdle();
@@ -47,55 +37,95 @@ public class Terdle {
     }
 
     public Terdle() {
-        Random random = new Random();
-        int randomIndex = random.nextInt(words.length);
-        word = words[randomIndex].toUpperCase();
     }
 
     public void run() {
         System.out.println("Welcome to TErdle!");
         Scanner scanner  = new Scanner(System.in);
+        boolean run = true;
+        Player currentPlayer = null;
 
-        int guessCount = 1;
-        boolean win = false;
 
-        while ( guessCount <= MAX_GUESSES && !win) {
+        while(run) {
 
-            System.out.print("Please enter guess #" + guessCount + ": ");
-            String guess = scanner.nextLine();
-            guess = guess.toUpperCase();
-
-            guesses.add(guess);
-
-            printGuesses();
-
-            ++guessCount;
-            win = guess.equals( word );
-
-            if (!win) {
-                printKeyboard();
+            if (currentPlayer == null) {
+                System.out.println("--------------------------");
+                System.out.print("Enter player name: ");
+                String playerName = scanner.nextLine();
+                currentPlayer = players.get(playerName);
+                if (currentPlayer == null) {
+                    currentPlayer = new Player(playerName);
+                    players.put(playerName, currentPlayer);
+                }
+                System.out.println("Hello " + playerName + "!");
             }
-        }
-        if (win) {
-            System.out.println("You won!!");
-        } else {
-            System.out.println("Sorry you didn't win.  The word is " + word + ".");
+            System.out.println("--------------------------");
+
+            System.out.println("1) Play game");
+            System.out.println("2) Change player");
+            System.out.println("3) Exit");
+            System.out.println("Please enter your choice.");
+
+            // TODO : validate input
+            int choice = Integer.parseInt(scanner.nextLine());
+            if (choice == 1) {
+                System.out.println("--------------------------");
+                Game currentGame = new Game();
+
+                int guessCount = 1;
+                boolean win = false;
+
+
+                while (guessCount <= Game.MAX_GUESSES && !win) {
+
+                    System.out.print("Please enter guess #" + guessCount + ": ");
+                    String guess = scanner.nextLine();
+                    guess = guess.toUpperCase();
+
+                    currentGame.addGuess(guess);
+
+                    printGuesses(currentGame);
+
+                    ++guessCount;
+                    win = guess.equals(currentGame.getWord());
+
+                    if (!win) {
+                        printKeyboard(currentGame);
+                    }
+                }
+                if (win) {
+                    System.out.println("You won!!");
+                } else {
+                    System.out.println("Sorry you didn't win.  The word is " + currentGame.getWord() + ".");
+                }
+                currentPlayer.addGame(currentGame);
+                System.out.println("Player " + currentPlayer.getName() + ": " + currentPlayer.getWins() + " wins, " +
+                        currentPlayer.getLosses() + " losses, average score " + currentPlayer.getAverageScore());
+
+            } else if (choice == 2) {
+                currentPlayer = null;
+            } else if (choice == 3) {
+                System.out.println("Thanks for playing " + currentPlayer.getName() + "!");
+                run = false;
+            } else {
+                System.out.println(choice + " is not a valid option!");
+            }
         }
     }
 
-    private void printGuesses() {
-        for (String guessToDisplay : guesses) {
-            int[] results = checkGuess(guessToDisplay);
+    private void printGuesses(Game game) {
+        for (String guessToDisplay : game.getGuesses()) {
+            int[] results = game.checkGuess(guessToDisplay);
             printGuessResults(guessToDisplay, results);
         }
         System.out.println();
     }
 
-    private void printKeyboard() {
+    private void printKeyboard(Game game) {
         Map<Character, Integer> resultMap = new HashMap<>();
-        for (String currentGuess : guesses) {
-            int[] results = checkGuess(currentGuess);
-            for (int i = 0; i < WORD_LENGTH; ++i) {
+        for (String currentGuess : game.getGuesses()) {
+            int[] results = game.checkGuess(currentGuess);
+            for (int i = 0; i < currentGuess.length(); ++i) {
                 Character guessChar = currentGuess.charAt(i);
                 Integer resultCode = resultMap.get(guessChar);
                 if (resultCode == null || results[i] > resultCode) {
@@ -111,39 +141,9 @@ public class Terdle {
         System.out.println();
     }
 
-    private int[] checkGuess( String guess ) {
-
-        List<Character> missedWordChars = new LinkedList<>();
-        for ( int i = 0; i < WORD_LENGTH; ++i) {
-            char wordChar = word.charAt(i);
-            char guessChar = guess.charAt(i);
-            if (wordChar != guessChar) {
-                missedWordChars.add(wordChar);
-            }
-        }
-
-        int[] resultCodes = new int[WORD_LENGTH];
-        for ( int i = 0; i < WORD_LENGTH; ++i) {
-            char wordChar = word.charAt(i);
-            char guessChar = guess.charAt(i);
-
-            if (wordChar == guessChar) {
-                resultCodes[i] = EXACT_MATCH;
-            } else {
-                int index = missedWordChars.indexOf(guessChar);
-                if (index > -1){
-                    resultCodes[i] = WRONG_LOCATION;
-                    missedWordChars.remove(index);
-                } else {
-                    resultCodes[i] = NO_MATCH;
-                }
-            }
-        }
-        return resultCodes;
-    }
 
     private void printGuessResults(String guess, int[] results) {
-        for ( int i = 0; i < WORD_LENGTH; ++i) {
+        for ( int i = 0; i < guess.length(); ++i) {
             char ch = guess.charAt(i);
             int resultCode = results[i];
             printResultChar(ch, resultCode);
