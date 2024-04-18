@@ -46,7 +46,7 @@ public class Player {
                totalGuesses += game.getGuesses().size();
                ++gamesPlayed;
             } else if(game.isLoss()) {
-                totalGuesses += Game.TOTAL_GUESSES_FOR_LOSS;
+                totalGuesses += WordleGame.TOTAL_GUESSES_FOR_LOSS;
                 ++gamesPlayed;
             }
         }
