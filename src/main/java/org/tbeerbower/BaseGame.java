@@ -1,10 +1,7 @@
 package org.tbeerbower;
 
-import org.tbeerbower.view.View;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public abstract class BaseGame implements Game {
@@ -14,12 +11,12 @@ public abstract class BaseGame implements Game {
 
 
     // Game words
-    private static final String[] words = {"chair", "crate", "train", "allow", "about", "study"};
+    private static final String[] WORDS = {"chair", "crate", "train", "allow", "about", "study"};
 
     public BaseGame() {
         Random random = new Random(System.currentTimeMillis());
-        int randomIndex = random.nextInt(words.length);
-        word = words[randomIndex].toUpperCase();
+        int randomIndex = random.nextInt(WORDS.length);
+        word = WORDS[randomIndex].toUpperCase();
         guesses = new ArrayList<>();
     }
 
@@ -35,7 +32,10 @@ public abstract class BaseGame implements Game {
 
     @Override
     public void addGuess(String guess) {
-        guesses.add(guess);
+        // TODO : add exceptions for overflow or invalid word
+        if (guesses.size() < Game.MAX_GUESSES && guess.length() == Game.WORD_LENGTH  && !isWin()) {
+            guesses.add(guess);
+        }
     }
 
     @Override
