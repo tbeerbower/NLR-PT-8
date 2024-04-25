@@ -34,7 +34,7 @@ public abstract class BaseGame implements Game {
     public void addGuess(String guess) {
         // TODO : add exceptions for overflow or invalid word
         if (guesses.size() < Game.MAX_GUESSES && guess.length() == Game.WORD_LENGTH  && !isWin()) {
-            guesses.add(guess);
+            guesses.add(guess.toUpperCase());
         }
     }
 

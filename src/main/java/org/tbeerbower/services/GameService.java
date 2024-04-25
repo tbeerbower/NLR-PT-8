@@ -21,15 +21,13 @@ public class GameService {
 
         view.displayDivider();
         while (guessCount <= Game.MAX_GUESSES && !win) {
-            view.display(String.format("Please enter guess #%d: ", guessCount));
-            String guess = view.getUserString().toUpperCase();
-            game.addGuess(guess);
+            promptForGuess(guessCount);
             displayGuesses();
-            ++guessCount;
-            win = guess.equals(game.getWord());
+            win = game.isWin();
             if (!win) {
                 displayKeyboard();
             }
+            ++guessCount;
         }
         if (win) {
             view.displayLine("You won!!");
@@ -41,7 +39,12 @@ public class GameService {
                 player.getName(), player.getWins(), player.getLosses(), player.getAverageScore()));
     }
 
-    public void displayGuesses() {
+    private void promptForGuess(int guessCount) {
+        view.display(String.format("Please enter guess #%d: ", guessCount));
+        game.addGuess(view.getUserString());
+    }
+
+    private void displayGuesses() {
         for (String guessToDisplay : game.getGuesses()) {
             int[] results = game.getGuessResults(guessToDisplay);
             displayGuessResults(guessToDisplay, results);
@@ -49,7 +52,7 @@ public class GameService {
         view.displayLine("");
     }
 
-    public void displayKeyboard() {
+    private void displayKeyboard() {
         Map<Character, Integer> resultMap = game.getKeyboardResults();
         for (int i = 0; i < View.KEYBOARD.length(); ++i) {
             char keyboardChar = View.KEYBOARD.charAt(i);

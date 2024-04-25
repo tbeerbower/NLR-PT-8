@@ -131,7 +131,7 @@ public class BaseGameTest {
         Random random = new Random(System.currentTimeMillis());
         String testWord;
         do {
-            testWord = TEST_WORDS[random.nextInt(TEST_WORDS.length)];
+            testWord = TEST_WORDS[random.nextInt(TEST_WORDS.length)].toUpperCase();
         } while(testWord.equals(gameWord) || guesses.contains(testWord));
         return testWord;
     }
