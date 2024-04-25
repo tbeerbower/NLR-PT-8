@@ -1,7 +1,10 @@
 package org.tbeerbower;
 
+import org.tbeerbower.view.View;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public abstract class BaseGame implements Game {

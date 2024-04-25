@@ -1,129 +1,63 @@
 package org.tbeerbower;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.tbeerbower.services.GameService;
+import org.tbeerbower.services.PlayersService;
+import org.tbeerbower.view.Menu;
+import org.tbeerbower.view.View;
+
 import java.util.Scanner;
 
 public class Terdle {
 
+    // Constants
+    private static final String[] MAIN_MENU_OPTIONS =
+            {"Play Wordle game", "Play Wordle Peaks game", "Change player", "Exit"};
+    private static final int PLAY_WORDLE_MENU_OPTION = 1;
+    private static final int PLAY_WORDLE_PEAKS_MENU_OPTION = 2;
+    private static final int CHANGE_PLAYER_MENU_OPTION = 3;
+    private static final int EXIT_MENU_OPTION = 4;
+
     // Instance variables
-    private final Map<String, Player> players = new HashMap<>();
+    private final View view;
 
     public static void main(String[] args) {
-        Terdle terdleGame = new Terdle();
+        Terdle terdleGame = new Terdle(new View(new Scanner(System.in)));
         terdleGame.run();
     }
 
-    public Terdle() {
+    public Terdle(View view) {
+        this.view = view;
     }
 
     public void run() {
-        System.out.println("Welcome to TErdle!");
-        Scanner scanner  = new Scanner(System.in);
+        view.displayLine("Welcome to TErdle!");
         boolean run = true;
+        PlayersService playersService = new PlayersService(view);
         Player currentPlayer = null;
 
-
         while(run) {
-
             if (currentPlayer == null) {
-                System.out.println("--------------------------");
-                System.out.print("Enter player name: ");
-                String playerName = scanner.nextLine();
-                currentPlayer = players.get(playerName);
-                if (currentPlayer == null) {
-                    currentPlayer = new Player(playerName);
-                    players.put(playerName, currentPlayer);
-                }
-                System.out.println("Hello " + playerName + "!");
+                currentPlayer = playersService.getPlayer();
             }
-            System.out.println("--------------------------");
 
-            System.out.println("1) Play Wordle game");
-            System.out.println("2) Play Wordle Peaks game");
-            System.out.println("3) Change player");
-            System.out.println("4) Exit");
-            System.out.println("Please enter your choice.");
-
-            // TODO : validate input
-            int choice = Integer.parseInt(scanner.nextLine());
-            if (choice == 1 || choice == 2) {
-                System.out.println("--------------------------");
-                Game currentGame = choice == 1 ? new WordleGame() : new WordlePeaksGame();
-
-                int guessCount = 1;
-                boolean win = false;
-
-                while (guessCount <= Game.MAX_GUESSES && !win) {
-
-                    System.out.print("Please enter guess #" + guessCount + ": ");
-                    String guess = scanner.nextLine();
-                    guess = guess.toUpperCase();
-
-                    currentGame.addGuess(guess);
-
-                    printGuesses(currentGame);
-
-                    ++guessCount;
-                    win = guess.equals(currentGame.getWord());
-
-                    if (!win) {
-                        printKeyboard(currentGame);
-                    }
-                }
-                if (win) {
-                    System.out.println("You won!!");
-                } else {
-                    System.out.println("Sorry you didn't win.  The word is " + currentGame.getWord() + ".");
-                }
-                currentPlayer.addGame(currentGame);
-                System.out.println("Player " + currentPlayer.getName() + ": " + currentPlayer.getWins() + " wins, " +
-                        currentPlayer.getLosses() + " losses, average score " + currentPlayer.getAverageScore());
-
-            } else if (choice == 3) {
-                currentPlayer = null;
-            } else if (choice == 4) {
-                System.out.println("Thanks for playing " + currentPlayer.getName() + "!");
-                run = false;
-            } else {
-                System.out.println(choice + " is not a valid option!");
+            Menu mainMenu = new Menu(MAIN_MENU_OPTIONS, view);
+            int choice = mainMenu.show();
+            switch (choice) {
+                case PLAY_WORDLE_MENU_OPTION:
+                case PLAY_WORDLE_PEAKS_MENU_OPTION:
+                    Game currentGame = choice == PLAY_WORDLE_MENU_OPTION ?
+                            new WordleGame() : new WordlePeaksGame();
+                    GameService gameService = new GameService(currentGame, view);
+                    gameService.playGame(currentPlayer);
+                    break;
+                case CHANGE_PLAYER_MENU_OPTION:
+                    currentPlayer = null;
+                    break;
+                case EXIT_MENU_OPTION:
+                    view.displayLine("Thanks for playing " + currentPlayer.getName() + "!");
+                    run = false;
+                    break;
             }
-        }
-    }
-
-    private void printGuesses(Game game) {
-        for (String guessToDisplay : game.getGuesses()) {
-            int[] results = game.getGuessResults(guessToDisplay);
-            printGuessResults(game, guessToDisplay, results);
-        }
-        System.out.println();
-    }
-
-    private void printKeyboard(Game game) {
-        Map<Character, Integer> resultMap = game.getKeyboardResults();
-        for (int i = 0; i < View.KEYBOARD.length(); ++i) {
-            char keyboardChar = View.KEYBOARD.charAt(i);
-            Integer resultCode = resultMap.get(keyboardChar);
-            printResultChar(game, keyboardChar, resultCode);
-        }
-        System.out.println();
-    }
-
-    private void printGuessResults(Game game, String guess, int[] results) {
-        for ( int i = 0; i < guess.length(); ++i) {
-            char ch = guess.charAt(i);
-            int resultCode = results[i];
-            printResultChar(game, ch, resultCode);
-        }
-        System.out.println();
-    }
-
-    private void printResultChar(Game game, char guessChar, Integer resultCode) {
-        if (resultCode == null) {
-            System.out.format(" %c ",  guessChar);
-        } else {
-            String background = game.getGameColors(resultCode);
-            System.out.format("%s%s %c %s", background, View.COLOR_BLACK, guessChar, View.COLOR_RESET);
         }
     }
 }

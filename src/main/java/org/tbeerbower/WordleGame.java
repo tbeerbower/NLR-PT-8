@@ -1,5 +1,7 @@
 package org.tbeerbower;
 
+import org.tbeerbower.view.View;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

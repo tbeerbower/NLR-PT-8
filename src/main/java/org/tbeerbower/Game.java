@@ -1,5 +1,7 @@
 package org.tbeerbower;
 
+import org.tbeerbower.view.View;
+
 import java.util.List;
 import java.util.Map;
 
