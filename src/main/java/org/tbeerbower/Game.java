@@ -1,7 +1,5 @@
 package org.tbeerbower;
 
-import org.tbeerbower.view.View;
-
 import java.util.List;
 import java.util.Map;
 
@@ -19,5 +17,5 @@ public interface Game {
     Map<Character, Integer> getKeyboardResults();
     boolean isWin();
     boolean isLoss();
-    String getGameColors(int resultCode);
+    String getResultColor(int resultCode);
 }

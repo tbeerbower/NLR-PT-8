@@ -11,14 +11,18 @@ public class WordleGame extends BaseGame {
 
 
     // Result Codes
-    private static final int NO_MATCH = 0;
-    private static final int WRONG_LOCATION = 1;
-    private static final int EXACT_MATCH = 2;
+    protected static final int NO_MATCH = 0;
+    protected static final int WRONG_LOCATION = 1;
+    protected static final int EXACT_MATCH = 2;
 
     // backgrounds
     private static final String[] BACKGROUNDS = {View.GRAY_BACKGROUND, View.YELLOW_BACKGROUND, View.GREEN_BACKGROUND};
 
     public WordleGame() {
+    }
+
+    protected WordleGame(String word) {
+        super(word);
     }
 
     @Override
@@ -68,7 +72,7 @@ public class WordleGame extends BaseGame {
     }
 
     @Override
-    public String getGameColors(int resultCode) {
+    public String getResultColor(int resultCode) {
         return BACKGROUNDS[resultCode];
     }
 }

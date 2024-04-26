@@ -6,18 +6,19 @@ import java.util.Random;
 
 public abstract class BaseGame implements Game {
 
-    private String word;
-    private List<String> guesses;
+    private final String word;
+    private final List<String> guesses = new ArrayList<>();
 
 
     // Game words
     private static final String[] WORDS = {"chair", "crate", "train", "allow", "about", "study"};
 
     public BaseGame() {
-        Random random = new Random(System.currentTimeMillis());
-        int randomIndex = random.nextInt(WORDS.length);
-        word = WORDS[randomIndex].toUpperCase();
-        guesses = new ArrayList<>();
+        this(getRandomWord());
+    }
+
+    protected BaseGame(String word) {
+        this.word = word.toUpperCase();
     }
 
     @Override
@@ -33,7 +34,7 @@ public abstract class BaseGame implements Game {
     @Override
     public void addGuess(String guess) {
         // TODO : add exceptions for overflow or invalid word
-        if (guesses.size() < Game.MAX_GUESSES && guess.length() == Game.WORD_LENGTH  && !isWin()) {
+        if (guesses.size() < Game.MAX_GUESSES && guess.length() == Game.WORD_LENGTH && !isWin()) {
             guesses.add(guess.toUpperCase());
         }
     }
@@ -49,5 +50,11 @@ public abstract class BaseGame implements Game {
     @Override
     public boolean isLoss() {
         return guesses.size() == MAX_GUESSES && !isWin();
+    }
+
+    private static String getRandomWord() {
+        Random random = new Random(System.currentTimeMillis());
+        int randomIndex = random.nextInt(WORDS.length);
+        return WORDS[randomIndex];
     }
 }

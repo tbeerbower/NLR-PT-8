@@ -41,7 +41,8 @@ public class GameService {
 
     private void promptForGuess(int guessCount) {
         view.display(String.format("Please enter guess #%d: ", guessCount));
-        game.addGuess(view.getUserString());
+        String guess = view.getUserString();
+        game.addGuess(guess);
     }
 
     private void displayGuesses() {
@@ -63,7 +64,7 @@ public class GameService {
     }
 
     private void displayGuessResults(String guess, int[] results) {
-        for ( int i = 0; i < guess.length(); ++i) {
+        for (int i = 0; i < guess.length(); ++i) {
             char ch = guess.charAt(i);
             int resultCode = results[i];
             displayResultChar(ch, resultCode);
@@ -72,7 +73,7 @@ public class GameService {
     }
 
     private void displayResultChar(char guessChar, Integer resultCode) {
-        String color = resultCode == null ? null : game.getGameColors(resultCode) + View.COLOR_BLACK;
-        view.display(String.format(" %c ",  guessChar), color);
+        String color = resultCode == null ? null : game.getResultColor(resultCode) + View.COLOR_BLACK;
+        view.display(String.format(" %c ", guessChar), color);
     }
 }

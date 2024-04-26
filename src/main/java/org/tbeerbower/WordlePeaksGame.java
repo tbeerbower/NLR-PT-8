@@ -8,11 +8,18 @@ import java.util.Map;
 public class WordlePeaksGame extends BaseGame {
 
     // Result Codes
-    private static final int CHAR_LOWER = 0;
-    private static final int CHAR_HIGHER = 1;
-    private static final int EXACT_MATCH = 2;
+    protected static final int CHAR_LOWER = 0;
+    protected static final int CHAR_HIGHER = 1;
+    protected static final int EXACT_MATCH = 2;
 
     private static final String[] BACKGROUNDS = {View.RED_BACKGROUND, View.BLUE_BACKGROUND, View.GREEN_BACKGROUND};
+
+    public WordlePeaksGame() {
+    }
+
+    protected WordlePeaksGame(String word) {
+        super(word);
+    }
 
     @Override
     public int[] getGuessResults(String guess) {
@@ -40,7 +47,6 @@ public class WordlePeaksGame extends BaseGame {
             int[] results = getGuessResults(currentGuess);
             for (int i = 0; i < currentGuess.length(); ++i) {
                 Character guessChar = currentGuess.charAt(i);
-                Integer resultCode = resultMap.get(guessChar);
                 resultMap.put(guessChar, results[i]);
             }
         }
@@ -48,7 +54,7 @@ public class WordlePeaksGame extends BaseGame {
     }
 
     @Override
-    public String getGameColors(int resultCode) {
+    public String getResultColor(int resultCode) {
         return BACKGROUNDS[resultCode];
     }
 }
