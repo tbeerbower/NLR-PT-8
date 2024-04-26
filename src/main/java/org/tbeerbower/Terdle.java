@@ -54,7 +54,7 @@ public class Terdle {
                     currentPlayer = null;
                     break;
                 case EXIT_MENU_OPTION:
-                    view.displayLine("Thanks for playing " + currentPlayer.getName() + "!");
+                    view.displayLine(String.format("Thanks for playing %s!", currentPlayer.getName()));
                     run = false;
                     break;
             }

@@ -44,16 +44,20 @@ public class WordlePeaksGameTest {
         game.addGuess("taste");
         Map<Character, Integer> expected = new HashMap<>();
         expected.put('T', EXACT_MATCH);
-        expected.put('A', CHAR_HIGHER);
         expected.put('S', EXACT_MATCH);
-        expected.put('E', CHAR_HIGHER);
+        assertEquals(expected, game.getKeyboardResults());
+        game.addGuess("tasty");
+        expected.put('Y', EXACT_MATCH);
+        assertEquals(expected, game.getKeyboardResults());
+        game.addGuess(TEST_WORD);
+        expected.put('E', EXACT_MATCH);
         assertEquals(expected, game.getKeyboardResults());
     }
 
     @Test
     public void getResultColor() {
-        assertEquals(View.RED_BACKGROUND, game.getResultColor(CHAR_LOWER));
-        assertEquals(View.BLUE_BACKGROUND, game.getResultColor(CHAR_HIGHER));
+        assertEquals(View.BLUE_BACKGROUND, game.getResultColor(CHAR_LOWER));
+        assertEquals(View.RED_BACKGROUND, game.getResultColor(CHAR_HIGHER));
         assertEquals(View.GREEN_BACKGROUND, game.getResultColor(EXACT_MATCH));
     }
 }

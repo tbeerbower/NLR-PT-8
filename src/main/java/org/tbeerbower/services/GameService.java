@@ -48,7 +48,7 @@ public class GameService {
                 game.addGuess(guess);
                 return;
             } catch (InvalidGuessException e) {
-                view.displayLine("'" +guess + "' is not a valid guess word! " + e.getMessage());
+                view.displayLine(String.format("'%s' is not a valid guess word! %s", guess, e.getMessage()));
             }
         }
     }

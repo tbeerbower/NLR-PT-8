@@ -12,7 +12,7 @@ public class WordlePeaksGame extends BaseGame {
     protected static final int CHAR_HIGHER = 1;
     protected static final int EXACT_MATCH = 2;
 
-    private static final String[] BACKGROUNDS = {View.RED_BACKGROUND, View.BLUE_BACKGROUND, View.GREEN_BACKGROUND};
+    private static final String[] BACKGROUNDS = {View.BLUE_BACKGROUND, View.RED_BACKGROUND, View.GREEN_BACKGROUND};
 
     public WordlePeaksGame() {
     }
@@ -46,8 +46,9 @@ public class WordlePeaksGame extends BaseGame {
         for (String currentGuess : getGuesses()) {
             int[] results = getGuessResults(currentGuess);
             for (int i = 0; i < currentGuess.length(); ++i) {
-                Character guessChar = currentGuess.charAt(i);
-                resultMap.put(guessChar, results[i]);
+                if (results[i] == EXACT_MATCH) {
+                    resultMap.put(currentGuess.charAt(i), EXACT_MATCH);
+                }
             }
         }
         return resultMap;

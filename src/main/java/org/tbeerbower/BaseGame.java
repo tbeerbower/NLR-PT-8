@@ -35,7 +35,8 @@ public abstract class BaseGame implements Game {
     public void addGuess(String guess) throws InvalidGuessException {
         // TODO : add exceptions for overflow
         if (guess.length() != Game.WORD_LENGTH) {
-            throw new InvalidGuessException(guess, "The guess is required to be " + Game.WORD_LENGTH + " characters long.");
+            throw new InvalidGuessException(guess,
+                    String.format("The guess is required to be %d characters long.", Game.WORD_LENGTH));
         }
         if (guesses.size() < Game.MAX_GUESSES && !isWin()) {
             guesses.add(guess.toUpperCase());

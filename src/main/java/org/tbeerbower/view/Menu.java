@@ -15,12 +15,12 @@ public class Menu {
             view.displayLine((i + 1) + ") " + options[i]);
         }
         while (true) {
-            view.displayLine("Please enter your choice (1-" + options.length + ")");
+            view.displayLine(String.format("Please enter your choice (1-%d)", options.length));
             int choice = view.getUserInt();
             if (choice >= 1 && choice <= options.length) {
                 return choice;
             }
-            view.displayLine(choice + " is not a valid choice!");
+            view.displayLine(String.format("%d is not a valid choice!", choice));
         }
     }
 }
