@@ -66,7 +66,7 @@ public class BaseGameTest extends GameTest {
         assertEquals(Game.MAX_GUESSES, guesses.size());
     }
 
-    @Test
+    @Test(expected = InvalidGuessException.class)
     public void addGuess_invalid_word() throws Exception {
         List<String> guesses = game.getGuesses();
         for (int i = 0; i < Game.MAX_GUESSES - 1 ; ++i) {
@@ -74,7 +74,6 @@ public class BaseGameTest extends GameTest {
         }
         assertEquals(Game.MAX_GUESSES - 1, guesses.size());
         game.addGuess(INVALID_GUESS);
-        assertEquals(Game.MAX_GUESSES - 1, guesses.size());
     }
 
     @Test

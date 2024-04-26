@@ -38,7 +38,7 @@ public abstract class GameTest {
         };
     }
 
-    protected Game getWinningGame(int numberOfGuesses) {
+    protected Game getWinningGame(int numberOfGuesses) throws InvalidGuessException {
         Game game = getGame();
         for (int i = 0; i < numberOfGuesses - 1; ++i) {
             game.addGuess(getTestWord(game));
@@ -47,7 +47,7 @@ public abstract class GameTest {
         return game;
     }
 
-    protected Game getLosingGame() {
+    protected Game getLosingGame() throws InvalidGuessException {
         Game game = getGame();
         for (int i = 0; i < Game.MAX_GUESSES; ++i) {
             game.addGuess(getTestWord(game));

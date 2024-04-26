@@ -12,7 +12,7 @@ public interface Game {
 
     String getWord();
     List<String> getGuesses();
-    void addGuess(String guess);
+    void addGuess(String guess) throws InvalidGuessException;
     int[] getGuessResults(String guess );
     Map<Character, Integer> getKeyboardResults();
     boolean isWin();

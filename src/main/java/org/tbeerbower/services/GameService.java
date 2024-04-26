@@ -1,6 +1,7 @@
 package org.tbeerbower.services;
 
 import org.tbeerbower.Game;
+import org.tbeerbower.InvalidGuessException;
 import org.tbeerbower.Player;
 import org.tbeerbower.view.View;
 
@@ -40,9 +41,16 @@ public class GameService {
     }
 
     private void promptForGuess(int guessCount) {
-        view.display(String.format("Please enter guess #%d: ", guessCount));
-        String guess = view.getUserString();
-        game.addGuess(guess);
+        while (true) {
+            view.display(String.format("Please enter guess #%d: ", guessCount));
+            String guess = view.getUserString();
+            try {
+                game.addGuess(guess);
+                return;
+            } catch (InvalidGuessException e) {
+                view.displayLine("'" +guess + "' is not a valid guess word! " + e.getMessage());
+            }
+        }
     }
 
     private void displayGuesses() {
