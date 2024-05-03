@@ -18,11 +18,8 @@ public class WordleGame extends BaseGame {
     // backgrounds
     private static final String[] BACKGROUNDS = {View.GRAY_BACKGROUND, View.YELLOW_BACKGROUND, View.GREEN_BACKGROUND};
 
-    public WordleGame() {
-    }
-
-    protected WordleGame(String word) {
-        super(word);
+    public WordleGame(String word, List<String> validWords) {
+        super(word, validWords);
     }
 
     @Override

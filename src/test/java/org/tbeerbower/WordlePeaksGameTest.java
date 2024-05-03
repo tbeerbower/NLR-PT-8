@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.tbeerbower.view.View;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -13,12 +14,11 @@ import static org.tbeerbower.WordlePeaksGame.CHAR_LOWER;
 import static org.tbeerbower.WordlePeaksGame.EXACT_MATCH;
 
 public class WordlePeaksGameTest {
-    private static final String TEST_WORD = "TESTY";
     private WordlePeaksGame game;
 
     @Before
     public void setup() {
-        game = new WordlePeaksGame(TEST_WORD);
+        game = new WordlePeaksGame(GameTest.TEST_WORD, List.of(GameTest.TEST_WORDS));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class WordlePeaksGameTest {
         results = game.getGuessResults("TITLE");
         assertArrayEquals(new int[] {EXACT_MATCH, CHAR_LOWER, CHAR_LOWER, CHAR_HIGHER, CHAR_HIGHER}, results);
 
-        results = game.getGuessResults(TEST_WORD);
+        results = game.getGuessResults(GameTest.TEST_WORD);
         assertArrayEquals(new int[] {EXACT_MATCH, EXACT_MATCH, EXACT_MATCH, EXACT_MATCH, EXACT_MATCH}, results);
     }
 
@@ -49,7 +49,7 @@ public class WordlePeaksGameTest {
         game.addGuess("tasty");
         expected.put('Y', EXACT_MATCH);
         assertEquals(expected, game.getKeyboardResults());
-        game.addGuess(TEST_WORD);
+        game.addGuess(GameTest.TEST_WORD);
         expected.put('E', EXACT_MATCH);
         assertEquals(expected, game.getKeyboardResults());
     }

@@ -3,6 +3,7 @@ package org.tbeerbower;
 import org.tbeerbower.view.View;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WordlePeaksGame extends BaseGame {
@@ -14,11 +15,8 @@ public class WordlePeaksGame extends BaseGame {
 
     private static final String[] BACKGROUNDS = {View.BLUE_BACKGROUND, View.RED_BACKGROUND, View.GREEN_BACKGROUND};
 
-    public WordlePeaksGame() {
-    }
-
-    protected WordlePeaksGame(String word) {
-        super(word);
+    public WordlePeaksGame(String word, List<String> validWords) {
+        super(word, validWords);
     }
 
     @Override

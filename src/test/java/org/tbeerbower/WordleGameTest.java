@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.tbeerbower.view.View;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -14,12 +15,11 @@ import static org.tbeerbower.WordlePeaksGame.EXACT_MATCH;
 
 public class WordleGameTest {
 
-    private static final String TEST_WORD = "TESTY";
     private WordleGame game;
 
     @Before
     public void setup() {
-        game = new WordleGame(TEST_WORD);
+        game = new WordleGame(GameTest.TEST_WORD, List.of(GameTest.TEST_WORDS));
     }
 
     @Test
@@ -36,7 +36,7 @@ public class WordleGameTest {
         results = game.getGuessResults("TITLE");
         assertArrayEquals(new int[] {EXACT_MATCH, NO_MATCH, WRONG_LOCATION, NO_MATCH, WRONG_LOCATION}, results);
 
-        results = game.getGuessResults(TEST_WORD);
+        results = game.getGuessResults(GameTest.TEST_WORD);
         assertArrayEquals(new int[] {EXACT_MATCH, EXACT_MATCH, EXACT_MATCH, EXACT_MATCH, EXACT_MATCH}, results);
     }
 

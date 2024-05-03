@@ -5,6 +5,8 @@ import org.tbeerbower.services.PlayersService;
 import org.tbeerbower.view.Menu;
 import org.tbeerbower.view.View;
 
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Terdle {
@@ -17,16 +19,22 @@ public class Terdle {
     private static final int CHANGE_PLAYER_MENU_OPTION = 3;
     private static final int EXIT_MENU_OPTION = 4;
 
+    private static final String[] WORDS = {"chair", "crate", "train", "allow", "about", "study"};
+
     // Instance variables
     private final View view;
+    private final List<String> words;
 
     public static void main(String[] args) {
-        Terdle terdleGame = new Terdle(new View(new Scanner(System.in)));
+        View view = new View(new Scanner(System.in));
+        List<String> words = List.of(WORDS);
+        Terdle terdleGame = new Terdle(view, words);
         terdleGame.run();
     }
 
-    public Terdle(View view) {
+    public Terdle(View view, List<String> words) {
         this.view = view;
+        this.words = words;
     }
 
     public void run() {
@@ -45,8 +53,10 @@ public class Terdle {
             switch (choice) {
                 case PLAY_WORDLE_MENU_OPTION:
                 case PLAY_WORDLE_PEAKS_MENU_OPTION:
+                    String word = getRandomWord();
                     Game currentGame = choice == PLAY_WORDLE_MENU_OPTION ?
-                            new WordleGame() : new WordlePeaksGame();
+                            new WordleGame(word, words) :
+                            new WordlePeaksGame(word, words);
                     GameService gameService = new GameService(currentGame, view);
                     gameService.playGame(currentPlayer);
                     break;
@@ -59,5 +69,11 @@ public class Terdle {
                     break;
             }
         }
+    }
+
+    private String getRandomWord() {
+        Random random = new Random(System.currentTimeMillis());
+        int randomIndex = random.nextInt(words.size());
+        return words.get(randomIndex);
     }
 }

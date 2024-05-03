@@ -36,8 +36,7 @@ public class GameService {
             view.displayLine(String.format("Sorry you didn't win.  The word is %s.", game.getWord()));
         }
         player.addGame(game);
-        view.displayLine(String.format("Player %s: %d wins, %d losses, average score %s%n",
-                player.getName(), player.getWins(), player.getLosses(), player.getAverageScore()));
+        view.displayLine(player.toString());
     }
 
     private void promptForGuess(int guessCount) {

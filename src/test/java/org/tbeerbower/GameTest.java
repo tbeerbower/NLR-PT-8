@@ -5,8 +5,11 @@ import java.util.Map;
 import java.util.Random;
 
 public abstract class GameTest {
-    private static final String[] TEST_WORDS = {"funny", "flood", "craze", "store", "shirt", "drive", "acorn", "zebra",
-            "furry", "black", "frost", "freak", "ghost", "drown", "white", "brown"};
+    protected static final String TEST_WORD = "TESTY";
+
+    protected static final String[] TEST_WORDS = {
+            "above", "title", "funny", "flood", "craze", "store", "shirt", "drive", "acorn", "zebra",
+            "furry", "black", "frost", "freak", "ghost", "drown", "white", "brown", "testy", "tasty", "taste", "extra"};
 
     protected String getTestWord(Game game) {
         Random random = new Random(System.currentTimeMillis());
@@ -20,7 +23,7 @@ public abstract class GameTest {
     }
 
     protected BaseGame getGame() {
-        return new BaseGame() {
+        return new BaseGame(TEST_WORD, List.of(TEST_WORDS)) {
             @Override
             public int[] getGuessResults(String guess) {
                 return new int[0];

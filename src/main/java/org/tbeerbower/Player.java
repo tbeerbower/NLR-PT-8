@@ -50,7 +50,12 @@ public class Player {
                 ++gamesPlayed;
             }
         }
-        return totalGuesses / (double) gamesPlayed;
+        return gamesPlayed == 0 ? 0 : totalGuesses / (double) gamesPlayed;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s: %d wins, %d losses, average score %s",
+                getName(), getWins(), getLosses(), getAverageScore());
+    }
 }
