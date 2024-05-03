@@ -1,9 +1,10 @@
 package org.tbeerbower;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public interface Game {
+public interface Game extends Serializable {
 
     // Constants
     int WORD_LENGTH = 5;

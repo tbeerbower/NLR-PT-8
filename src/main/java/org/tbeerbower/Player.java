@@ -1,8 +1,9 @@
 package org.tbeerbower;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private String name;
     private List<Game> games = new ArrayList<>();
 

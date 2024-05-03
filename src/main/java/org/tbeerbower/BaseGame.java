@@ -7,7 +7,7 @@ public abstract class BaseGame implements Game {
 
     private final String word;
 
-    private final List<String> validWords;
+    private final transient List<String> validWords;
 
     private final List<String> guesses = new ArrayList<>();
 
