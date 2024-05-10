@@ -1,10 +1,10 @@
 package org.tbeerbower.view;
 
-public class Menu {
-    private final String[] options;
+public class Menu<T> {
+    private final T[] options;
     private final View view;
 
-    public Menu(String[] options, View view) {
+    public Menu(T[] options, View view) {
         this.options = options;
         this.view = view;
     }
@@ -22,5 +22,9 @@ public class Menu {
             }
             view.displayLine(String.format("%d is not a valid choice!", choice));
         }
+    }
+
+    public T showOptions() {
+        return options[show() - 1];
     }
 }
