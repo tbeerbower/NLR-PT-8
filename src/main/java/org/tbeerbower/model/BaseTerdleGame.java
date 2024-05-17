@@ -1,9 +1,9 @@
-package org.tbeerbower;
+package org.tbeerbower.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseGame implements Game {
+public abstract class BaseTerdleGame implements TerdleGame {
 
     private final String word;
 
@@ -11,7 +11,7 @@ public abstract class BaseGame implements Game {
 
     private final List<String> guesses = new ArrayList<>();
 
-    public BaseGame(String word, List<String> validWords) {
+    public BaseTerdleGame(String word, List<String> validWords) {
         this.word = word.toUpperCase();
         this.validWords = validWords;
     }
@@ -28,18 +28,18 @@ public abstract class BaseGame implements Game {
 
     @Override
     public void addGuess(String guess) throws InvalidGuessException {
-        // TODO : add exceptions for overflow
-        if (guess.length() != Game.WORD_LENGTH) {
+        if (guess.length() != TerdleGame.WORD_LENGTH) {
             throw new InvalidGuessException(guess,
-                    String.format("Required to be %d characters long.", Game.WORD_LENGTH));
+                    String.format("Required to be %d characters long.", TerdleGame.WORD_LENGTH));
         }
         String lowerCaseGuess = guess.toLowerCase();
         if (!validWords.contains(lowerCaseGuess)) {
             throw new InvalidGuessException(guess, "Not a Wordle word.");
         }
-        if (guesses.size() < Game.MAX_GUESSES && !isWin()) {
-            guesses.add(guess.toUpperCase());
+        if (guesses.size() >= TerdleGame.MAX_GUESSES || isWin()) {
+            throw new InvalidGuessException(guess, "Can't add a guess to a completed game.");
         }
+        guesses.add(guess.toUpperCase());
     }
 
     @Override

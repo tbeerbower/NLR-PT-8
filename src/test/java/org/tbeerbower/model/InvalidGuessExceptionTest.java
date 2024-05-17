@@ -1,4 +1,4 @@
-package org.tbeerbower;
+package org.tbeerbower.model;
 
 import org.junit.Before;
 import org.junit.Test;

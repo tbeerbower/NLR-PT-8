@@ -1,4 +1,4 @@
-package org.tbeerbower;
+package org.tbeerbower.model;
 
 public class InvalidGuessException extends Exception {
     private final String guess;

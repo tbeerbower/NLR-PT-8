@@ -1,17 +1,17 @@
 package org.tbeerbower.services;
 
-import org.tbeerbower.Game;
-import org.tbeerbower.InvalidGuessException;
-import org.tbeerbower.Player;
+import org.tbeerbower.model.TerdleGame;
+import org.tbeerbower.model.InvalidGuessException;
+import org.tbeerbower.model.Player;
 import org.tbeerbower.view.View;
 
 import java.util.Map;
 
 public class GameService {
-    private final Game game;
+    private final TerdleGame game;
     private final View view;
 
-    public GameService(Game game, View view) {
+    public GameService(TerdleGame game, View view) {
         this.game = game;
         this.view = view;
     }
@@ -21,7 +21,7 @@ public class GameService {
         boolean win = false;
 
         view.displayDivider();
-        while (guessCount <= Game.MAX_GUESSES && !win) {
+        while (guessCount <= TerdleGame.MAX_GUESSES && !win) {
             promptForGuess(guessCount);
             displayGuesses();
             win = game.isWin();
@@ -54,33 +54,31 @@ public class GameService {
 
     private void displayGuesses() {
         for (String guessToDisplay : game.getGuesses()) {
-            int[] results = game.getGuessResults(guessToDisplay);
+            TerdleGame.Result[] results = game.getGuessResults(guessToDisplay);
             displayGuessResults(guessToDisplay, results);
         }
         view.displayLine("");
     }
 
     private void displayKeyboard() {
-        Map<Character, Integer> resultMap = game.getKeyboardResults();
+        Map<Character, TerdleGame.Result> resultMap = game.getKeyboardResults();
         for (int i = 0; i < View.KEYBOARD.length(); ++i) {
             char keyboardChar = View.KEYBOARD.charAt(i);
-            Integer resultCode = resultMap.get(keyboardChar);
-            displayResultChar(keyboardChar, resultCode);
+            displayResultChar(keyboardChar, resultMap.get(keyboardChar));
         }
         view.displayLine("");
     }
 
-    private void displayGuessResults(String guess, int[] results) {
+    private void displayGuessResults(String guess, TerdleGame.Result[] results) {
         for (int i = 0; i < guess.length(); ++i) {
             char ch = guess.charAt(i);
-            int resultCode = results[i];
-            displayResultChar(ch, resultCode);
+            displayResultChar(ch, results[i]);
         }
         view.displayLine("");
     }
 
-    private void displayResultChar(char guessChar, Integer resultCode) {
-        String color = resultCode == null ? null : game.getResultColor(resultCode) + View.COLOR_BLACK;
+    private void displayResultChar(char guessChar, TerdleGame.Result resultCode) {
+        String color = resultCode == null ? null : resultCode.getColor();
         view.display(String.format(" %c ", guessChar), color);
     }
 }

@@ -1,4 +1,4 @@
-package org.tbeerbower;
+package org.tbeerbower.model;
 
 import org.tbeerbower.view.View;
 
@@ -7,23 +7,38 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class WordleGame extends BaseGame {
+public class WordleGame extends BaseTerdleGame {
 
 
     // Result Codes
-    protected static final int NO_MATCH = 0;
-    protected static final int WRONG_LOCATION = 1;
-    protected static final int EXACT_MATCH = 2;
+    public enum ResultCode implements TerdleGame.Result{
+        NO_MATCH(View.GRAY_BACKGROUND + View.COLOR_BLACK),
+        WRONG_LOCATION(View.YELLOW_BACKGROUND + View.COLOR_BLACK),
+        EXACT_MATCH(View.GREEN_BACKGROUND + View.COLOR_BLACK);
 
-    // backgrounds
-    private static final String[] BACKGROUNDS = {View.GRAY_BACKGROUND, View.YELLOW_BACKGROUND, View.GREEN_BACKGROUND};
+        private final String color;
+
+        ResultCode(String color) {
+            this.color = color;
+        }
+
+        @Override
+        public int getValue() {
+            return ordinal();
+        }
+
+        @Override
+        public String getColor() {
+            return color;
+        }
+    }
 
     public WordleGame(String word, List<String> validWords) {
         super(word, validWords);
     }
 
     @Override
-    public int[] getGuessResults(String guess ) {
+    public Result[] getGuessResults(String guess ) {
         List<Character> missedWordChars = new LinkedList<>();
         for ( int i = 0; i < WORD_LENGTH; ++i) {
             char wordChar = getWord().charAt(i);
@@ -33,43 +48,38 @@ public class WordleGame extends BaseGame {
             }
         }
 
-        int[] resultCodes = new int[WORD_LENGTH];
+        Result[] resultCodes = new Result[WORD_LENGTH];
         for ( int i = 0; i < WORD_LENGTH; ++i) {
             char wordChar = getWord().charAt(i);
             char guessChar = guess.charAt(i);
 
             if (wordChar == guessChar) {
-                resultCodes[i] = EXACT_MATCH;
+                resultCodes[i] = ResultCode.EXACT_MATCH;
             } else {
                 int index = missedWordChars.indexOf(guessChar);
                 if (index > -1){
-                    resultCodes[i] = WRONG_LOCATION;
+                    resultCodes[i] = ResultCode.WRONG_LOCATION;
                     missedWordChars.remove(index);
                 } else {
-                    resultCodes[i] = NO_MATCH;
+                    resultCodes[i] = ResultCode.NO_MATCH;
                 }
             }
         }
         return resultCodes;
     }
 
-    public Map<Character, Integer> getKeyboardResults() {
-        Map<Character, Integer> resultMap = new HashMap<>();
+    public Map<Character, Result> getKeyboardResults() {
+        Map<Character, Result> resultMap = new HashMap<>();
         for (String currentGuess : getGuesses()) {
-            int[] results = getGuessResults(currentGuess);
+            Result[] results = getGuessResults(currentGuess);
             for (int i = 0; i < currentGuess.length(); ++i) {
                 Character guessChar = currentGuess.charAt(i);
-                Integer resultCode = resultMap.get(guessChar);
-                if (resultCode == null || results[i] > resultCode) {
+                Result resultCode = resultMap.get(guessChar);
+                if (resultCode == null || results[i].getValue() > resultCode.getValue()) {
                     resultMap.put(guessChar, results[i]);
                 }
             }
         }
         return resultMap;
-    }
-
-    @Override
-    public String getResultColor(int resultCode) {
-        return BACKGROUNDS[resultCode];
     }
 }

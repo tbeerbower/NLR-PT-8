@@ -1,7 +1,12 @@
 package org.tbeerbower;
 
+import org.tbeerbower.model.TerdleGame;
+import org.tbeerbower.model.Player;
+import org.tbeerbower.model.WordleGame;
+import org.tbeerbower.model.WordlePeaksGame;
 import org.tbeerbower.services.GameService;
 import org.tbeerbower.services.PlayersService;
+import org.tbeerbower.utils.WordReader;
 import org.tbeerbower.view.MainMenu;
 import org.tbeerbower.view.View;
 
@@ -55,7 +60,7 @@ public class Terdle {
                 case PLAY_WORDLE:
                 case PLAY_WORDLE_PEAKS:
                     String word = getRandomWord();
-                    Game currentGame = choice == MainMenu.Option.PLAY_WORDLE ?
+                    TerdleGame currentGame = choice == MainMenu.Option.PLAY_WORDLE ?
                             new WordleGame(word, validGuesses) :
                             new WordlePeaksGame(word, validGuesses);
                     GameService gameService = new GameService(currentGame, view);

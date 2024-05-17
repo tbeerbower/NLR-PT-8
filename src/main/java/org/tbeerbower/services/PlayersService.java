@@ -1,11 +1,10 @@
 package org.tbeerbower.services;
 
-import org.tbeerbower.Player;
+import org.tbeerbower.model.Player;
 import org.tbeerbower.view.View;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;

@@ -1,17 +1,16 @@
-package org.tbeerbower;
+package org.tbeerbower.model;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.tbeerbower.view.View;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static org.tbeerbower.WordleGame.NO_MATCH;
-import static org.tbeerbower.WordleGame.WRONG_LOCATION;
-import static org.tbeerbower.WordlePeaksGame.EXACT_MATCH;
+import static org.tbeerbower.model.WordleGame.ResultCode.EXACT_MATCH;
+import static org.tbeerbower.model.WordleGame.ResultCode.NO_MATCH;
+import static org.tbeerbower.model.WordleGame.ResultCode.WRONG_LOCATION;
 
 public class WordleGameTest {
 
@@ -24,26 +23,26 @@ public class WordleGameTest {
 
     @Test
     public void getGuessResults() {
-        int[] results = game.getGuessResults("TASTE");
-        assertArrayEquals(new int[] {EXACT_MATCH, NO_MATCH, EXACT_MATCH, EXACT_MATCH, WRONG_LOCATION}, results);
+        TerdleGame.Result[] results = game.getGuessResults("TASTE");
+        assertArrayEquals(new TerdleGame.Result[] {EXACT_MATCH, NO_MATCH, EXACT_MATCH, EXACT_MATCH, WRONG_LOCATION}, results);
 
         results = game.getGuessResults("ABOVE");
-        assertArrayEquals(new int[] {NO_MATCH, NO_MATCH, NO_MATCH, NO_MATCH, WRONG_LOCATION}, results);
+        assertArrayEquals(new TerdleGame.Result[] {NO_MATCH, NO_MATCH, NO_MATCH, NO_MATCH, WRONG_LOCATION}, results);
 
         results = game.getGuessResults("ZEBRA");
-        assertArrayEquals(new int[] {NO_MATCH, EXACT_MATCH, NO_MATCH, NO_MATCH, NO_MATCH}, results);
+        assertArrayEquals(new TerdleGame.Result[] {NO_MATCH, EXACT_MATCH, NO_MATCH, NO_MATCH, NO_MATCH}, results);
 
         results = game.getGuessResults("TITLE");
-        assertArrayEquals(new int[] {EXACT_MATCH, NO_MATCH, WRONG_LOCATION, NO_MATCH, WRONG_LOCATION}, results);
+        assertArrayEquals(new TerdleGame.Result[] {EXACT_MATCH, NO_MATCH, WRONG_LOCATION, NO_MATCH, WRONG_LOCATION}, results);
 
         results = game.getGuessResults(GameTest.TEST_WORD);
-        assertArrayEquals(new int[] {EXACT_MATCH, EXACT_MATCH, EXACT_MATCH, EXACT_MATCH, EXACT_MATCH}, results);
+        assertArrayEquals(new TerdleGame.Result[] {EXACT_MATCH, EXACT_MATCH, EXACT_MATCH, EXACT_MATCH, EXACT_MATCH}, results);
     }
 
     @Test
     public void getKeyboardResults() throws Exception {
         game.addGuess("above");
-        Map<Character, Integer> expected = new HashMap<>();
+        Map<Character, TerdleGame.Result> expected = new HashMap<>();
         expected.put('A', NO_MATCH);
         expected.put('B', NO_MATCH);
         expected.put('O', NO_MATCH);
@@ -62,12 +61,5 @@ public class WordleGameTest {
         expected.put('I', NO_MATCH);
         expected.put('L', NO_MATCH);
         assertEquals(expected, game.getKeyboardResults());
-    }
-
-    @Test
-    public void getResultColor() {
-        assertEquals(View.GRAY_BACKGROUND, game.getResultColor(NO_MATCH));
-        assertEquals(View.YELLOW_BACKGROUND, game.getResultColor(WRONG_LOCATION));
-        assertEquals(View.GREEN_BACKGROUND, game.getResultColor(EXACT_MATCH));
     }
 }

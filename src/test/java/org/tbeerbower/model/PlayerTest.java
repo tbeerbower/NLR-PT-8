@@ -1,4 +1,4 @@
-package org.tbeerbower;
+package org.tbeerbower.model;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +23,8 @@ public class PlayerTest extends GameTest {
 
     @Test
     public void addGame() throws Exception {
-        player.addGame(getWinningGame(Game.MAX_GUESSES));
-        player.addGame(getWinningGame(Game.MAX_GUESSES));
+        player.addGame(getWinningGame(TerdleGame.MAX_GUESSES));
+        player.addGame(getWinningGame(TerdleGame.MAX_GUESSES));
         player.addGame(getLosingGame());
         player.addGame(getLosingGame());
         assertEquals(4, player.getWins() + player.getLosses());
@@ -33,9 +33,9 @@ public class PlayerTest extends GameTest {
     @Test
     public void getWins() throws Exception {
         assertEquals(0, player.getWins());
-        player.addGame(getWinningGame(Game.MAX_GUESSES));
+        player.addGame(getWinningGame(TerdleGame.MAX_GUESSES));
         player.addGame(getLosingGame());
-        player.addGame(getWinningGame(Game.MAX_GUESSES));
+        player.addGame(getWinningGame(TerdleGame.MAX_GUESSES));
         player.addGame(getLosingGame());
         assertEquals(2, player.getWins());
     }
@@ -43,9 +43,9 @@ public class PlayerTest extends GameTest {
     @Test
     public void getLosses() throws Exception {
         assertEquals(0, player.getLosses());
-        player.addGame(getWinningGame(Game.MAX_GUESSES));
+        player.addGame(getWinningGame(TerdleGame.MAX_GUESSES));
         player.addGame(getLosingGame());
-        player.addGame(getWinningGame(Game.MAX_GUESSES));
+        player.addGame(getWinningGame(TerdleGame.MAX_GUESSES));
         player.addGame(getLosingGame());
         assertEquals(2, player.getLosses());  
     }

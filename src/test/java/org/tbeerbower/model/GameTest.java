@@ -1,4 +1,4 @@
-package org.tbeerbower;
+package org.tbeerbower.model;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ public abstract class GameTest {
             "above", "title", "funny", "flood", "craze", "store", "shirt", "drive", "acorn", "zebra",
             "furry", "black", "frost", "freak", "ghost", "drown", "white", "brown", "testy", "tasty", "taste", "extra"};
 
-    protected String getTestWord(Game game) {
+    protected String getTestWord(TerdleGame game) {
         Random random = new Random(System.currentTimeMillis());
         String gameWord = game.getWord();
         List<String> guesses = game.getGuesses();
@@ -22,27 +22,22 @@ public abstract class GameTest {
         return testWord;
     }
 
-    protected BaseGame getGame() {
-        return new BaseGame(TEST_WORD, List.of(TEST_WORDS)) {
+    protected BaseTerdleGame getGame() {
+        return new BaseTerdleGame(TEST_WORD, List.of(TEST_WORDS)) {
             @Override
-            public int[] getGuessResults(String guess) {
-                return new int[0];
+            public Result[] getGuessResults(String guess) {
+                return new Result[0];
             }
 
             @Override
-            public Map<Character, Integer> getKeyboardResults() {
-                return null;
-            }
-
-            @Override
-            public String getResultColor(int resultCode) {
+            public Map<Character, Result> getKeyboardResults() {
                 return null;
             }
         };
     }
 
-    protected Game getWinningGame(int numberOfGuesses) throws InvalidGuessException {
-        Game game = getGame();
+    protected TerdleGame getWinningGame(int numberOfGuesses) throws InvalidGuessException {
+        TerdleGame game = getGame();
         for (int i = 0; i < numberOfGuesses - 1; ++i) {
             game.addGuess(getTestWord(game));
         }
@@ -50,9 +45,9 @@ public abstract class GameTest {
         return game;
     }
 
-    protected Game getLosingGame() throws InvalidGuessException {
-        Game game = getGame();
-        for (int i = 0; i < Game.MAX_GUESSES; ++i) {
+    protected TerdleGame getLosingGame() throws InvalidGuessException {
+        TerdleGame game = getGame();
+        for (int i = 0; i < TerdleGame.MAX_GUESSES; ++i) {
             game.addGuess(getTestWord(game));
         }
         return game;

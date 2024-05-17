@@ -1,4 +1,4 @@
-package org.tbeerbower;
+package org.tbeerbower.model;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,11 +7,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class BaseGameTest extends GameTest {
+public class BaseTerdleGameTest extends GameTest {
     
     private static final String INVALID_GUESS = "invalid";  // too long
 
-    private BaseGame game;
+    private BaseTerdleGame game;
 
     @Before
     public void setup() {
@@ -21,7 +21,7 @@ public class BaseGameTest extends GameTest {
     @Test
     public void getWord() {
         String word = game.getWord();
-        assertEquals(Game.WORD_LENGTH, word.length());
+        assertEquals(TerdleGame.WORD_LENGTH, word.length());
     }
 
     @Test
@@ -45,34 +45,31 @@ public class BaseGameTest extends GameTest {
     @Test
     public void addGuess() throws Exception {
         List<String> guesses = game.getGuesses();
-        for (int i = 0; i < Game.MAX_GUESSES; ++i) {
+        for (int i = 0; i < TerdleGame.MAX_GUESSES; ++i) {
             String testWord = getTestWord(game);
             game.addGuess(testWord);
             assertEquals(i, guesses.indexOf(testWord));
         }
-        assertEquals(Game.MAX_GUESSES, guesses.size());
-        game.addGuess("extra");
-        assertEquals(Game.MAX_GUESSES, guesses.size());
+        assertEquals(TerdleGame.MAX_GUESSES, guesses.size());
     }
 
-    @Test
+    @Test(expected = InvalidGuessException.class)
     public void addGuess_extra_guess() throws Exception {
         List<String> guesses = game.getGuesses();
-        for (int i = 0; i < Game.MAX_GUESSES; ++i) {
+        for (int i = 0; i < TerdleGame.MAX_GUESSES; ++i) {
             game.addGuess(getTestWord(game));
         }
-        assertEquals(Game.MAX_GUESSES, guesses.size());
+        assertEquals(TerdleGame.MAX_GUESSES, guesses.size());
         game.addGuess("extra");
-        assertEquals(Game.MAX_GUESSES, guesses.size());
     }
 
     @Test(expected = InvalidGuessException.class)
     public void addGuess_invalid_word() throws Exception {
         List<String> guesses = game.getGuesses();
-        for (int i = 0; i < Game.MAX_GUESSES - 1 ; ++i) {
+        for (int i = 0; i < TerdleGame.MAX_GUESSES - 1 ; ++i) {
             game.addGuess(getTestWord(game));
         }
-        assertEquals(Game.MAX_GUESSES - 1, guesses.size());
+        assertEquals(TerdleGame.MAX_GUESSES - 1, guesses.size());
         game.addGuess(INVALID_GUESS);
     }
 
@@ -80,7 +77,7 @@ public class BaseGameTest extends GameTest {
     public void isWin() throws Exception {
         String word = game.getWord();
         assertFalse(game.isWin());
-        for (int i = 0; i < Game.MAX_GUESSES - 1; ++i) {
+        for (int i = 0; i < TerdleGame.MAX_GUESSES - 1; ++i) {
             game.addGuess(getTestWord(game));
         }
         assertFalse(game.isWin());
@@ -91,7 +88,7 @@ public class BaseGameTest extends GameTest {
     @Test
     public void isLoss() throws Exception {
         assertFalse(game.isLoss());
-        for (int i = 0; i < Game.MAX_GUESSES - 1; ++i) {
+        for (int i = 0; i < TerdleGame.MAX_GUESSES - 1; ++i) {
             game.addGuess(getTestWord(game));
         }
         assertFalse(game.isLoss());

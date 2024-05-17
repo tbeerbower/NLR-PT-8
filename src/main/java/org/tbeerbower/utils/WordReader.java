@@ -1,4 +1,4 @@
-package org.tbeerbower;
+package org.tbeerbower.utils;
 
 import org.tbeerbower.view.View;
 

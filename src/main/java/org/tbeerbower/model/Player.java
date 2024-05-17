@@ -1,11 +1,12 @@
-package org.tbeerbower;
+package org.tbeerbower.model;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements Serializable {
     private String name;
-    private List<Game> games = new ArrayList<>();
+    private List<TerdleGame> games = new ArrayList<>();
 
     public Player(String name) {
         this.name = name;
@@ -15,13 +16,13 @@ public class Player implements Serializable {
         return name;
     }
 
-    public void addGame(Game game) {
+    public void addGame(TerdleGame game) {
         games.add(game);
     }
 
     public int getWins() {
         int wins = 0;
-        for (Game game : games) {
+        for (TerdleGame game : games) {
             if (game.isWin()) {
                 ++wins;
             }
@@ -31,7 +32,7 @@ public class Player implements Serializable {
 
     public int getLosses() {
         int losses = 0;
-        for (Game game : games) {
+        for (TerdleGame game : games) {
             if (game.isLoss()) {
                 ++losses;
             }
@@ -42,7 +43,7 @@ public class Player implements Serializable {
     public double getAverageScore() {
         int totalGuesses = 0;
         int gamesPlayed = 0;
-        for (Game game : games) {
+        for (TerdleGame game : games) {
             if (game.isWin()) {
                totalGuesses += game.getGuesses().size();
                ++gamesPlayed;
