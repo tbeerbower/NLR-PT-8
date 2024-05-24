@@ -6,6 +6,7 @@ import org.tbeerbower.model.WordleGame;
 import org.tbeerbower.model.WordlePeaksGame;
 import org.tbeerbower.services.GameService;
 import org.tbeerbower.services.PlayersService;
+import org.tbeerbower.utils.ScannerProvider;
 import org.tbeerbower.utils.WordReader;
 import org.tbeerbower.view.MainMenu;
 import org.tbeerbower.view.View;
@@ -27,7 +28,7 @@ public class Terdle {
 
     public static void main(String[] args) {
         View view = new View(new Scanner(System.in));
-        WordReader reader = new WordReader(view);
+        WordReader reader = new WordReader(view, new ScannerProvider());
         List<String> words = reader.getWords(RESOURCE_DIR + "/words.txt");
         List<String> guesses = reader.getWords(RESOURCE_DIR + "/guesses.txt");
         guesses.addAll(words);
