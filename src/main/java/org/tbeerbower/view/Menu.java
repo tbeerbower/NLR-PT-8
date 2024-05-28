@@ -9,6 +9,10 @@ public class Menu<T> {
         this.view = view;
     }
 
+    public View getView() {
+        return view;
+    }
+
     public int show() {
         view.displayDivider();
         for (int i = 0; i < options.length; ++i) {
