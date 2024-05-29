@@ -57,7 +57,7 @@ public class Player implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s: %d wins, %d losses, average score %s",
+        return String.format("%s:\t\t%d wins\t\t%d losses\t\taverage score %.2f",
                 getName(), getWins(), getLosses(), getAverageScore());
     }
 }

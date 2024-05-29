@@ -3,17 +3,41 @@ package org.tbeerbower.services;
 import org.tbeerbower.model.TerdleGame;
 import org.tbeerbower.model.InvalidGuessException;
 import org.tbeerbower.model.Player;
+import org.tbeerbower.model.WordleGame;
+import org.tbeerbower.utils.ScannerProvider;
+import org.tbeerbower.utils.WordReader;
 import org.tbeerbower.view.View;
 
+import java.util.List;
 import java.util.Map;
 
 public class GameService {
+    // Constants
+    private static final String RESOURCE_DIR = "src/main/resources";
+    private static List<String> WORDS;
+    private static List<String> VALID_GUESSES;
+
     private final TerdleGame game;
     private final View view;
 
     public GameService(TerdleGame game, View view) {
         this.game = game;
         this.view = view;
+    }
+
+    public static void initWords(View view) {
+        WordReader reader = new WordReader(view, new ScannerProvider());
+        WORDS = reader.getWords(RESOURCE_DIR + "/words.txt");
+        VALID_GUESSES = reader.getWords(RESOURCE_DIR + "/guesses.txt");
+        VALID_GUESSES.addAll(WORDS);
+    }
+
+    public static List<String> getWords() {
+        return WORDS;
+    }
+
+    public static List<String> getValidGuesses() {
+        return VALID_GUESSES;
     }
 
     public void playGame(Player player) {
