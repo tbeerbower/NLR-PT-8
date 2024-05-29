@@ -1,6 +1,7 @@
 package org.tbeerbower.services;
 
 import org.tbeerbower.model.Player;
+import org.tbeerbower.model.PlayerComparator;
 import org.tbeerbower.view.View;
 
 import java.io.File;
@@ -9,17 +10,29 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PlayersService {
+    private static final String PLAYERS_FILE_PATH = "terdle-players.dat";
+
     private Map<String, Player> players = new HashMap<>();
     private final View view;
     private final File file;
 
-    public PlayersService(View view, String path) {
+    public PlayersService(View view) {
+        this(view, PLAYERS_FILE_PATH);
+    }
+
+    public PlayersService(View view, String playersFilePath) {
         this.view = view;
-        this.file = new File(path);
+        this.file = new File(playersFilePath);
+    }
+
+    public void addPlayer(Player player) {
+        players.put(player.getName(), player);
     }
 
     public Player getPlayer() {
@@ -35,11 +48,24 @@ public class PlayersService {
         return player;
     }
 
-    public void displayPlayers() {
+    public void displayPlayers(Collection<Player> playerList, boolean showNumbers) {
         view.displayDivider();
-        for (Player player : players.values()) {
-            view.displayLine(player.toString());
+        int i = 1;
+        for (Player player : playerList) {
+            String line = showNumbers ?
+                    String.format("%d)\t%s", i++, player.toString()) :
+                    player.toString();
+            view.displayLine(line);
         }
+    }
+    public void displayPlayers() {
+        displayPlayers(players.values(), false);
+    }
+
+    public void displayPlayers(PlayerComparator.Mode mode) {
+        ArrayList<Player> playersList = new ArrayList<>(players.values());
+        playersList.sort(new PlayerComparator(mode));
+        displayPlayers(playersList, true);
     }
 
     public void savePlayers() {
