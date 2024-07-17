@@ -1,11 +1,9 @@
-package org.tbeerbower;
+package org.tbeerbower.view;
 
-import org.tbeerbower.services.PlayersService;
-import org.tbeerbower.view.Menu;
-import org.tbeerbower.view.View;
+import org.tbeerbower.services.PlayerService;
 
-import static org.tbeerbower.model.PlayerComparator.Mode.AVG_GUESSES_ASC;
-import static org.tbeerbower.model.PlayerComparator.Mode.WINS_DESC;
+import static org.tbeerbower.model.UserComparator.Mode.AVG_GUESSES_ASC;
+import static org.tbeerbower.model.UserComparator.Mode.WINS_DESC;
 
 /**
  * Sub menu class for the leaderboard options of the TErdle game.
@@ -44,9 +42,9 @@ public class LeaderboardMenu extends Menu<LeaderboardMenu.Option> {
 
     /**
      * Run the menu and show the options, waiting for a user selection.
-     * @param playersService  the service used to display the player leaderboards
+     * @param playerService  the service used to display the player leaderboards
      */
-    public void run(PlayersService playersService) {
+    public void run(PlayerService playerService) {
         boolean run = true;
 
         while (run) {
@@ -54,12 +52,12 @@ public class LeaderboardMenu extends Menu<LeaderboardMenu.Option> {
                 case BY_GAMES_WON:
                     getView().displayDivider();
                     getView().displayLine("Leaderboard by games won");
-                    playersService.displayPlayers(WINS_DESC);
+                    playerService.displayPlayers(getView(), WINS_DESC);
                     break;
                 case BY_AVG_GUESSES:
                     getView().displayDivider();
                     getView().displayLine("Leaderboard by average guesses");
-                    playersService.displayPlayers(AVG_GUESSES_ASC);
+                    playerService.displayPlayers(getView(), AVG_GUESSES_ASC);
                     break;
                 case EXIT:
                     run = false;

@@ -42,10 +42,10 @@ In Module 1 we will create a CLI version of a Wordle game.
 * Should display a simulated keyboard after each incorrect guess that shows all of the used/unused characters
 * Feedback to the user after each guess should include all of the guesses up to that point
 * Should display a simulated keyboard after each incorrect guess that shows all of the used/unused characters
-* Get player name
-* Allow any player to play multiple games
-* Record player statistics (wins, losses, average score)
-* Display player statistics after each game
+* Get user name
+* Allow any user to play multiple games
+* Record user statistics (wins, losses, average score)
+* Display user statistics after each game
 * Add a different Wordle game variant (WordlePeaks)
 
 
