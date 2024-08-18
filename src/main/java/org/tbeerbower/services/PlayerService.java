@@ -1,8 +1,8 @@
 package org.tbeerbower.services;
 
 import org.springframework.stereotype.Service;
-import org.tbeerbower.dao.UserDao;
-import org.tbeerbower.dao.UserGameDao;
+import org.tbeerbower.daos.UserDao;
+import org.tbeerbower.daos.UserGameDao;
 import org.tbeerbower.exception.DaoException;
 import org.tbeerbower.model.User;
 import org.tbeerbower.model.UserComparator;

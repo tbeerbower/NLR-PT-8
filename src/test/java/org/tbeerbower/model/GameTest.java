@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Random;
 
 public abstract class GameTest {
-    protected static final String TEST_WORD = "TESTY";
+    public static final String TEST_WORD = "TESTY";
 
-    protected static final String[] TEST_WORDS = {
+    public static final String[] TEST_WORDS = {
             "above", "title", "funny", "flood", "craze", "store", "shirt", "drive", "acorn", "zebra",
             "furry", "black", "frost", "freak", "ghost", "drown", "white", "brown", "testy", "tasty", "taste", "extra"};
 
