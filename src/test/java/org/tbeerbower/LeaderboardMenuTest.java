@@ -3,6 +3,7 @@ package org.tbeerbower;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
+import org.tbeerbower.view.LeaderboardMenu;
 import org.tbeerbower.view.View;
 
 import static org.junit.Assert.assertEquals;

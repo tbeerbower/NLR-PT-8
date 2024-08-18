@@ -1,16 +1,18 @@
-package org.tbeerbower;
+package org.tbeerbower.view;
 
-import org.tbeerbower.services.PlayersService;
-import org.tbeerbower.view.Menu;
-import org.tbeerbower.view.View;
+import org.tbeerbower.services.PlayerService;
 
-import static org.tbeerbower.model.PlayerComparator.Mode.AVG_GUESSES_ASC;
-import static org.tbeerbower.model.PlayerComparator.Mode.WINS_DESC;
+import static org.tbeerbower.model.UserComparator.Mode.AVG_GUESSES_ASC;
+import static org.tbeerbower.model.UserComparator.Mode.WINS_DESC;
 
+/**
+ * Sub menu class for the leaderboard options of the TErdle game.
+ */
 public class LeaderboardMenu extends Menu<LeaderboardMenu.Option> {
 
     public static final Option[] OPTIONS_VALUES = Option.values();
 
+    // Enum for leaderboard menu options
     public enum Option {
         BY_GAMES_WON("Leaderboard by games won"),
         BY_AVG_GUESSES("Leaderboard by average guesses"),
@@ -28,11 +30,21 @@ public class LeaderboardMenu extends Menu<LeaderboardMenu.Option> {
         }
     }
 
+
+    // ***** Constructors *****************************************************
+
     public LeaderboardMenu(View view) {
         super(OPTIONS_VALUES, view);
     }
 
-    public void run(PlayersService playersService) {
+
+    // ***** LeaderboardMenu **************************************************
+
+    /**
+     * Run the menu and show the options, waiting for a user selection.
+     * @param playerService  the service used to display the player leaderboards
+     */
+    public void run(PlayerService playerService) {
         boolean run = true;
 
         while (run) {
@@ -40,12 +52,12 @@ public class LeaderboardMenu extends Menu<LeaderboardMenu.Option> {
                 case BY_GAMES_WON:
                     getView().displayDivider();
                     getView().displayLine("Leaderboard by games won");
-                    playersService.displayPlayers(WINS_DESC);
+                    playerService.displayPlayers(getView(), WINS_DESC);
                     break;
                 case BY_AVG_GUESSES:
                     getView().displayDivider();
                     getView().displayLine("Leaderboard by average guesses");
-                    playersService.displayPlayers(AVG_GUESSES_ASC);
+                    playerService.displayPlayers(getView(), AVG_GUESSES_ASC);
                     break;
                 case EXIT:
                     run = false;

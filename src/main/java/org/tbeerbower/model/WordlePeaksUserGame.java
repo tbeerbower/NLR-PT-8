@@ -2,14 +2,14 @@ package org.tbeerbower.model;
 
 import org.tbeerbower.view.View;
 
+import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class WordlePeaksGame extends BaseTerdleGame {
+public class WordlePeaksUserGame extends BaseUserGame {
 
     // Result Codes
-    public enum ResultCode implements TerdleGame.Result{
+    public enum ResultCode implements UserGame.Result{
         CHAR_LOWER(View.BLUE_BACKGROUND + View.COLOR_BLACK),
         CHAR_HIGHER(View.RED_BACKGROUND + View.COLOR_BLACK),
         EXACT_MATCH(View.GREEN_BACKGROUND + View.COLOR_BLACK);
@@ -31,8 +31,12 @@ public class WordlePeaksGame extends BaseTerdleGame {
         }
     }
 
-    public WordlePeaksGame(String word, List<String> validWords) {
-        super(word, validWords);
+    public WordlePeaksUserGame(Game game, int userId, LocalDate playedDate) {
+        super(game, userId, playedDate);
+    }
+
+    public WordlePeaksUserGame(int gameId, String word, LocalDate gameDate, int userId, LocalDate playedDate) {
+        super(gameId, word, GameType.WORDLE_PEAKS, gameDate, userId, playedDate);
     }
 
     @Override

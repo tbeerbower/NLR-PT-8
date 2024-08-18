@@ -2,6 +2,7 @@ package org.tbeerbower.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.tbeerbower.exception.InvalidGuessException;
 
 import static org.junit.Assert.*;
 
