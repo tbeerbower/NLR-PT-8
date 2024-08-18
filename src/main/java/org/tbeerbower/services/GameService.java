@@ -1,8 +1,8 @@
 package org.tbeerbower.services;
 
 import org.springframework.stereotype.Service;
-import org.tbeerbower.dao.GameDao;
-import org.tbeerbower.dao.UserGameDao;
+import org.tbeerbower.daos.GameDao;
+import org.tbeerbower.daos.UserGameDao;
 import org.tbeerbower.model.Game;
 import org.tbeerbower.model.GameType;
 import org.tbeerbower.model.UserGame;

@@ -1,4 +1,4 @@
-package org.tbeerbower.dao;
+package org.tbeerbower.daos;
 
 import org.tbeerbower.model.User;
 

@@ -1,4 +1,4 @@
-package org.tbeerbower.dao;
+package org.tbeerbower.daos;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
