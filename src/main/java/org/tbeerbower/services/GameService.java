@@ -6,7 +6,7 @@ import org.tbeerbower.daos.UserGameDao;
 import org.tbeerbower.model.Game;
 import org.tbeerbower.model.GameType;
 import org.tbeerbower.model.UserGame;
-import org.tbeerbower.exception.InvalidGuessException;
+import org.tbeerbower.exceptions.InvalidGuessException;
 import org.tbeerbower.model.User;
 import org.tbeerbower.model.WordleUserGame;
 import org.tbeerbower.model.WordlePeaksUserGame;

@@ -1,6 +1,6 @@
 package org.tbeerbower.model;
 
-import org.tbeerbower.exception.InvalidGuessException;
+import org.tbeerbower.exceptions.InvalidGuessException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

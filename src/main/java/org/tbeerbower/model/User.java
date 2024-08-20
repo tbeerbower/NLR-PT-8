@@ -1,5 +1,7 @@
 package org.tbeerbower.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,11 +10,14 @@ import java.util.Set;
 
 public class User implements Serializable {
 
+    @JsonIgnore
     private int id;
     private String username;
     private String displayName;
     private String profileImageUrl;
     private String shortBio;
+    @JsonIgnore
+    private boolean activated = true;
     private List<UserGame> games = new ArrayList<>();
 
     // User roles
@@ -97,6 +102,14 @@ public class User implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public void addGame(UserGame game) {

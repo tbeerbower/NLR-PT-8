@@ -3,7 +3,7 @@ package org.tbeerbower.services;
 import org.springframework.stereotype.Service;
 import org.tbeerbower.daos.UserDao;
 import org.tbeerbower.daos.UserGameDao;
-import org.tbeerbower.exception.DaoException;
+import org.tbeerbower.exceptions.DaoException;
 import org.tbeerbower.model.User;
 import org.tbeerbower.model.UserComparator;
 import org.tbeerbower.model.UserGame;
