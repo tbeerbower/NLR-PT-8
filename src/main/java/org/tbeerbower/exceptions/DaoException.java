@@ -1,4 +1,4 @@
-package org.tbeerbower.exception;
+package org.tbeerbower.exceptions;
 
 public class DaoException extends RuntimeException {
     public DaoException() {

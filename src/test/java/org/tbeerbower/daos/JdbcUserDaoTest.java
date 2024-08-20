@@ -7,7 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.tbeerbower.exception.DaoException;
+import org.tbeerbower.exceptions.DaoException;
 import org.tbeerbower.model.User;
 
 import java.util.Collections;
